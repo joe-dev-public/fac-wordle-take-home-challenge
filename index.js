@@ -5,6 +5,8 @@ let divs = [];
 
 let letters = new Array(5).fill("");
 
+let statusElement;
+
 
 function updateDisplay() {
 
@@ -14,7 +16,25 @@ function updateDisplay() {
     
     inner.innerHTML = letters[i];
 
+    if (letters[i] !== "") {
+      inner.parentElement.classList.add('filled');
+      inner.parentElement.classList.add('pop');
+    } else {
+      inner.parentElement.classList.remove('filled');
+      inner.parentElement.classList.remove('pop');
+    }
+
   }
+
+}
+
+
+function updateStatus(message) {
+
+  statusElement.innerHTML = message;
+
+  statusElement.classList.remove('hidden');
+  statusElement.classList.add('fade');
 
 }
 
@@ -47,11 +67,11 @@ function typeStuff(letter) {
     updateDisplay();
     //console.log(letters);
 
-  } else {
+  } /* else {
 
     console.log('letters full');
 
-  }
+  } */
 
 }
 
@@ -61,6 +81,11 @@ function deleteStuff() {
   //console.log("delete");
 
   if (letters.join("") !== "") {
+
+    if (letters[4] !== "") {
+      statusElement.classList.add('hidden');
+      statusElement.classList.remove('fade');
+    }
 
     // sadly we can't just pop if we're using the blank string method
     //letters.pop();
@@ -82,7 +107,13 @@ function deleteStuff() {
 
 function enterStuff() {
 
-  console.log("enter");
+  /* console.log("enter"); */
+
+  if (!letters.includes("")){
+
+    updateStatus('Great guess!');
+
+  }
 
 }
 
@@ -116,6 +147,8 @@ function getPressedKeys(event) {
 function windowLoaded() {
 
   divs = document.getElementsByClassName('outer');
+
+  statusElement = document.getElementById('status');
 
   //const defaultWord = 'WRDLE';
 
