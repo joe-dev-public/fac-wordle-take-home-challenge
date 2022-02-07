@@ -9,13 +9,19 @@ View on desktop at GitHub Pages here: https://joe-dev-public.github.io/fac-wordl
 - Try submitting your guess using enter/return
 - Have a great time! :)
 
-## Notes
-
 This currently doesn't work on mobile, and I assume it won't work on any device without a physical keyboard.
 
 (If there's a way to manually activate the on-screen/software keyboard on your device, it might work.)
 
-An interesting/fun/challenging next step could be to implement each letter tile using an ``<input>``, in the hope that mobiles/tablets will show the on-screen keyboard.
+## Possible next steps?
+
+### Reconsider how letters are stored
+
+Is the current five-element array method reliable? Are there any kinds of inputs which could break it? What kinds of tests could be done to find out?
+
+### Mobile/tablet compatibility
+
+An interesting/fun challenge could be to implement each letter tile using an ``<input>``, in the hope that mobiles/tablets will show the on-screen keyboard.
 
 The ``<input>`` elements could have a max length of 1, and some JS would presumably be needed to handle moving the cursor (/focus) between each ``<input>`` as letters were typed/deleted.
 
