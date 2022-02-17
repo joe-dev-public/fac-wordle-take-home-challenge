@@ -3,23 +3,33 @@
 
 let divs = [];
 
-let letters = new Array(5).fill("");
+let letters = [];
 
 let statusElement;
 
 
 function updateDisplay() {
 
+  /*  For each div that can hold a letter, set its HTML contents to the value
+      of the letters array at the same index (and change some style classes).
+      Check that the array has an element at that index first, so we don't
+      add the text "undefined"!
+      (If there is no element at that index, clear the div's contents, and also
+      change some style classes.)
+  */
+
   for (let i = 0; i < divs.length; i++) {
 
     const inner = divs[i].querySelector('.inner');
-    
-    inner.innerHTML = letters[i];
 
-    if (letters[i] !== "") {
+    //console.log(`${i} - ${letters[i]}`);
+
+    if (letters[i]) {
+      inner.innerHTML = letters[i];
       inner.parentElement.classList.add('filled');
       inner.parentElement.classList.add('pop');
     } else {
+      inner.innerHTML = '';
       inner.parentElement.classList.remove('filled');
       inner.parentElement.classList.remove('pop');
     }
@@ -43,35 +53,26 @@ function typeStuff(letter) {
 
   // Fill empty squares.
 
-  //console.log(letter);
-
-  /*  - Use an array
-      - Check to see where the first empty string in the array is
-      - If there are none, exit/show error
-      - Where there is one, put the letter in it and run function to update display
+  /*  - Check the length of the letters array
+      - If it's less than 5, do something
+      - (If it's 5 or longer, do nothing)
+      - Add a new element to the array (whose contents is the typed letter)
+      - Update the display
   */
 
-  if (letters.includes("") === true) {
+  if (letters.length < 5) {
 
     //console.log('insert letter');
 
-    // arrow function fun: if you include the braces, you have to manually return true :P
-    //const testFunc = (element) => { if (element === "") { return true; } }
-    //const idx = letters.findIndex(testFunc);
-    // findIndex wasn't needed after all, heh
-
-    const idx = letters.indexOf("");
-
-    letters[idx] = letter;
+    letters.push(letter);
 
     updateDisplay();
-    //console.log(letters);
 
-  } /* else {
+  } //else {
 
-    console.log('letters full');
+    //console.log('letters full');
 
-  } */
+  //}
 
 }
 
@@ -80,25 +81,27 @@ function deleteStuff() {
 
   //console.log("delete");
 
-  if (letters.join("") !== "") {
+  /*  If the letters array has any elements (i.e. length is greater than zero),
+      pop the last element off the array, and update the display.
 
-    if (letters[4] !== "") {
+      If the length of the letters array is 5, i.e. if the fifth letter is
+      about to be deleted, then change some style classes on the status element
+      (to hide it, basically).
+
+      (The status element won't necessarily have these classes if the user deletes
+      the fifth letter without having already "entered" a guess.)
+  */
+
+  if (letters.length > 0) {
+
+    if (letters.length === 5) {
       statusElement.classList.add('hidden');
       statusElement.classList.remove('fade');
     }
 
-    // sadly we can't just pop if we're using the blank string method
-    //letters.pop();
-    //console.log(letters);
+    letters.pop();
 
-    for (let i = 4; i >= 0; i--) {
-      if (letters[i] !== "") { 
-        letters[i] = "";
-        updateDisplay();
-        //console.log(letters);
-        break;
-      }
-    }
+    updateDisplay();
 
   }
 
@@ -107,9 +110,11 @@ function deleteStuff() {
 
 function enterStuff() {
 
-  /* console.log("enter"); */
+  //console.log("enter");
 
-  if (!letters.includes("")){
+  // If the letters array length is exactly 5, allow a guess to be entered
+
+  if (letters.length === 5){
 
     updateStatus('Great guess!');
 
